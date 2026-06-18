@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker | Aditya Kumar</title>
+    <meta name="description" content="A personal job application tracker by Aditya Kumar to manage and monitor job applications efficiently.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- ========== SIDEBAR ========== -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="avatar">AK</div>
+                <h2 class="user-name">Aditya Kumar</h2>
+                <a href="mailto:adityakumar030703@gmail.com" class="user-email">adityakumar030703@gmail.com</a>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#" class="nav-item active" onclick="showView('applications', this); return false;">
+                    <span class="nav-icon">📋</span> Applications
+                </a>
+                <a href="#" class="nav-item" onclick="showView('dashboard', this); return false;">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+            </nav>
+
+            <!-- Data Actions -->
+            <div class="data-actions">
+                <p class="data-label">Data Management</p>
+                <button class="data-btn export-btn" onclick="exportJSON()">
+                    ↓ Export Json
+                </button>
+                <label class="data-btn import-btn">
+                    ↑ Import Json
+                    <input type="file" id="importFile" accept=".json" onchange="importJSON(event)" style="display:none">
+                </label>
+                <button class="data-btn clear-btn" onclick="clearAllData()">
+                    ✕ Clear All Data
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="https://digitalheroesco.com" target="_blank" rel="noopener noreferrer" class="digital-heroes-btn">
+                    ⚡ Built for Digital Heroes
+                </a>
+            </div>
+        </aside>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <main class="main-content">
+
+            <!-- Toast notification -->
+            <div id="toast" class="toast hidden"></div>
+
+            <!-- ====== VIEW: APPLICATIONS ====== -->
+            <div id="view-applications" class="view active">
+                <header class="top-header">
+                    <div class="header-titles">
+                        <h1>My Applications</h1>
+                        <p>Track every opportunity in your job hunt.</p>
+                    </div>
+                    <button class="primary-btn" onclick="openModal()">
+                        + Add Application
+                    </button>
+                </header>
+
+                <!-- Stats -->
+                <section class="stats-grid">
+                    <div class="stat-card" style="--accent:#3b82f6">
+                        <div class="stat-icon" style="background:rgba(59,130,246,.15);color:#60a5fa">🚀</div>
+                        <div class="stat-info"><h3>Total Applied</h3><p id="stat-total">0</p></div>
+                    </div>
+                    <div class="stat-card" style="--accent:#a855f7">
+                        <div class="stat-icon" style="background:rgba(168,85,247,.15);color:#c084fc">💬</div>
+                        <div class="stat-info"><h3>Interviewing</h3><p id="stat-interview">0</p></div>
+                    </div>
+                    <div class="stat-card" style="--accent:#22c55e">
+                        <div class="stat-icon" style="background:rgba(34,197,94,.15);color:#4ade80">🎉</div>
+                        <div class="stat-info"><h3>Offers</h3><p id="stat-offer">0</p></div>
+                    </div>
+                    <div class="stat-card" style="--accent:#ef4444">
+                        <div class="stat-icon" style="background:rgba(239,68,68,.15);color:#f87171">❌</div>
+                        <div class="stat-info"><h3>Rejected</h3><p id="stat-rejected">0</p></div>
+                    </div>
+                </section>
+
+                <!-- Table -->
+                <section class="applications-section">
+                    <div class="table-container">
+                        <div class="filter-bar">
+                            <input type="text" id="searchInput" placeholder="🔍  Search company or role..." oninput="renderJobs()">
+                            <select id="filterStatus" onchange="renderJobs()">
+                                <option value="All">All Status</option>
+                                <option value="Applied">Applied</option>
+                                <option value="Interviewing">Interviewing</option>
+                                <option value="Offer">Offer</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+
+                        <table class="apps-table">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Role</th>
+                                    <th>Date Applied</th>
+                                    <th>Status</th>
+                                    <th>Notes</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="job-list"></tbody>
+                        </table>
+
+                        <div id="empty-state" class="empty-state hidden">
+                            <div class="empty-icon">📂</div>
+                            <h3>No applications yet</h3>
+                            <p>Click <strong>"Add Application"</strong> to start tracking!</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ====== VIEW: DASHBOARD ====== -->
+            <div id="view-dashboard" class="view hidden">
+                <header class="top-header">
+                    <div class="header-titles">
+                        <h1>Dashboard</h1>
+                        <p>A visual overview of your job search progress.</p>
+                    </div>
+                </header>
+
+                <section class="dashboard-grid">
+                    <div class="dash-card wide">
+                        <h3 class="card-title">📊 Status Breakdown</h3>
+                        <div class="bar-chart" id="barChart"></div>
+                    </div>
+
+                    <div class="dash-card">
+                        <h3 class="card-title">🎯 Offer Rate</h3>
+                        <div class="ring-wrapper">
+                            <svg class="ring-svg" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="10"/>
+                                <circle id="ringProgress" cx="50" cy="50" r="38" fill="none"
+                                    stroke="url(#ringGrad)" stroke-width="10" stroke-linecap="round"
+                                    stroke-dasharray="238.76" stroke-dashoffset="238.76"
+                                    transform="rotate(-90 50 50)"/>
+                                <defs>
+                                    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#3b82f6"/>
+                                        <stop offset="100%" stop-color="#a855f7"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="ring-label">
+                                <span id="ringPercent">0%</span>
+                                <small>Offer Rate</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dash-card">
+                        <h3 class="card-title">🕐 Recent Activity</h3>
+                        <ul class="activity-list" id="activityList"></ul>
+                        <p id="activityEmpty" class="activity-empty hidden">No activity yet.</p>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ========== ADD/EDIT MODAL ========== -->
+    <div id="jobModal" class="modal-overlay hidden" onclick="handleOverlayClick(event)">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="modal-title">Add New Application</h2>
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </header>
+            <form id="jobForm" onsubmit="saveJob(event)">
+                <input type="hidden" id="jobId">
+                <div class="form-group">
+                    <label for="company">Company Name <span class="req">*</span></label>
+                    <input type="text" id="company" placeholder="e.g. Google" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role / Job Title <span class="req">*</span></label>
+                    <input type="text" id="role" placeholder="e.g. Frontend Engineer" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Date Applied <span class="req">*</span></label>
+                        <input type="date" id="date" required
+                            min="2000-01-01" max="2099-12-31"
+                            oninput="clampDateYear(this)">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status <span class="req">*</span></label>
+                        <select id="status" required>
+                            <option value="Applied">Applied</option>
+                            <option value="Interviewing">Interviewing</option>
+                            <option value="Offer">Offer</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes (Optional)</label>
+                    <textarea id="notes" rows="3" placeholder="Salary, recruiter name, interview details..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="primary-btn">✓ Save Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
