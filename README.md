@@ -8,7 +8,7 @@ A clean, fast, and privacy-first **Job Application Tracker** built with pure HTM
 
 ## 🚀 Live Demo
 
-🔗 [View Live on Vercel](#) *(add your URL here after deployment)*
+🔗 https://job-application-tracker-one-beige.vercel.app/
 
 ---
 
@@ -77,18 +77,7 @@ No build step needed — it's pure HTML/CSS/JS.
 
 That's it. No `npm install`, no build, no server required.
 
----
 
-## ☁️ Deploy to Vercel
-
-1. Push code to a **public GitHub repository**
-2. Go to [vercel.com](https://vercel.com) → **Add New Project**
-3. Import your GitHub repo
-4. Set **Framework Preset** to `Other`
-5. Leave Build Command and Output Directory **empty**
-6. Click **Deploy** ✅
-
----
 
 ## 📊 How Data Works
 
@@ -105,28 +94,3 @@ Export JSON  ──►  .json file on your computer (manual backup)
 Import JSON  ──►  restore from backup file
 ```
 
-> **For a production version**, data would flow to a REST API
-> (Node.js + Express) → JWT Auth → PostgreSQL on AWS/Azure.
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Cloud sync with Supabase (free tier)
-- [ ] OAuth login via Google
-- [ ] Email reminders for follow-ups
-- [ ] CSV export support
-- [ ] Interview notes with rich text
-
----
-
-## 👤 Author
-
-**Aditya Kumar**
-📧 [adityakumar030703@gmail.com](mailto:adityakumar030703@gmail.com)
-
----
-
-## ⚡ Built for Digital Heroes
-
-[![Built for Digital Heroes](https://img.shields.io/badge/Built%20for-Digital%20Heroes-orange?style=for-the-badge)](https://digitalheroesco.com)

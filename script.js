@@ -188,7 +188,7 @@ function saveJob(e) {
         const idx = jobs.findIndex(j => j.id === editingId);
         if (idx !== -1) {
             jobs[idx] = { ...jobs[idx], company, role, date, status, notes };
-            showToast('✅ Application updated!', 'success');
+            showToast(' Application updated!', 'success');
         }
     } else {
         jobs.push({
