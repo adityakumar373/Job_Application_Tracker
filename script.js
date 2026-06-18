@@ -218,7 +218,9 @@ function renderJobs() {
     const filter   = document.getElementById('filterStatus')?.value || 'All';
     const tbody    = document.getElementById('job-list');
     const empty    = document.getElementById('empty-state');
-    const table    = document.querySelector('.apps-table');
+    const tableWrap = document.getElementById('table-wrap');
+
+    if (!tbody) return; // guard: elements not in DOM yet
 
     // Filter
     const filtered = jobs.filter(j => {
@@ -236,10 +238,10 @@ function renderJobs() {
 
     if (filtered.length === 0) {
         empty.classList.remove('hidden');
-        table.style.display = 'none';
+        if (tableWrap) tableWrap.classList.add('hidden');
     } else {
         empty.classList.add('hidden');
-        table.style.display = '';
+        if (tableWrap) tableWrap.classList.remove('hidden');
 
         filtered.forEach(job => {
             const tr = document.createElement('tr');
