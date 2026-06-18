@@ -265,10 +265,14 @@ html, body {
 }
 .filter-bar input {
     flex: 1;
-    min-width: 0;       /* prevents flex overflow */
-    max-width: 340px;   /* cap on desktop */
+    min-width: 0;
+    width: auto;   /* override global width:100% — let flex control the width */
 }
-.filter-bar select { flex-shrink: 0; min-width: 140px; }
+.filter-bar select {
+    flex-shrink: 0;
+    width: auto;   /* override global width:100% — prevents it from grabbing all space */
+    min-width: 150px;
+}
 .filter-bar input::placeholder { color: var(--text-muted); }
 .filter-bar select option {
     background-color: #1e293b;
