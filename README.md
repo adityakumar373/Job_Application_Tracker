@@ -45,6 +45,7 @@ job-application-tracker/
 ├── styles.css      # Full design system — dark theme, animations
 ├── script.js       # All logic: CRUD, storage, export/import, charts
 └── README.md       # This file
+---
 
 ## 📊 How Data Works
 
