@@ -124,18 +124,6 @@ html, body {
 /* Sidebar Footer */
 .sidebar-footer { margin-top: auto; padding-top: 0.75rem; }
 
-.digital-heroes-btn {
-    display: block; width: 100%; padding: 0.75rem 1rem;
-    background: linear-gradient(135deg, #f97316, #ef4444);
-    color: white; text-align: center; text-decoration: none;
-    border-radius: 8px; font-weight: 600; font-size: 0.85rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
-}
-.digital-heroes-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.5);
-}
 
 /* ==================== MAIN ==================== */
 .main-content {
