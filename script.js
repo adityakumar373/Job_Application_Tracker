@@ -1,8 +1,8 @@
-// ==================== STATE ====================
+// STATE
 let jobs = [];
 const STORAGE_KEY = 'jobTracker_v2';
 
-// ==================== INIT ====================
+// INIT
 document.addEventListener('DOMContentLoaded', () => {
     loadFromStorage();
     renderJobs();
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('date').valueAsDate = new Date();
 });
 
-// ==================== STORAGE ====================
+// STORAGE
 function loadFromStorage() {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
@@ -29,7 +29,7 @@ function saveToStorage() {
     }
 }
 
-// ==================== EXPORT JSON ====================
+// EXPORT JSON
 function exportJSON() {
     if (jobs.length === 0) {
         showToast('No data to export yet!', 'error');
@@ -58,7 +58,7 @@ function exportJSON() {
     showToast(`✅ Exported ${jobs.length} application(s) as JSON!`, 'success');
 }
 
-// ==================== IMPORT JSON ====================
+// IMPORT JSON 
 function importJSON(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -123,7 +123,7 @@ function importJSON(event) {
     reader.readAsText(file);
 }
 
-// ==================== CLEAR ALL ====================
+//  CLEAR ALL
 function clearAllData() {
     if (jobs.length === 0) {
         showToast('Nothing to clear!', 'error');
@@ -137,7 +137,7 @@ function clearAllData() {
     }
 }
 
-// ==================== MODAL ====================
+// MODAL
 let editingId = null;
 
 function openModal(jobId = null) {
@@ -174,7 +174,7 @@ function handleOverlayClick(e) {
     if (e.target === document.getElementById('jobModal')) closeModal();
 }
 
-// ==================== SAVE JOB ====================
+// SAVE JOB
 function saveJob(e) {
     e.preventDefault();
 
@@ -203,7 +203,7 @@ function saveJob(e) {
     closeModal();
 }
 
-// ==================== DELETE JOB ====================
+// DELETE JOB
 function deleteJob(id) {
     if (!confirm('Delete this application?')) return;
     jobs = jobs.filter(j => j.id !== id);
@@ -212,7 +212,7 @@ function deleteJob(id) {
     showToast('🗑 Application deleted.', 'success');
 }
 
-// ==================== RENDER JOBS ====================
+// RENDER JOBS
 function renderJobs() {
     const search   = (document.getElementById('searchInput')?.value || '').toLowerCase();
     const filter   = document.getElementById('filterStatus')?.value || 'All';
@@ -269,7 +269,7 @@ function renderJobs() {
     updateDashboard();
 }
 
-// ==================== STATS ====================
+// STATS
 function updateStats() {
     const counts = { Applied: 0, Interviewing: 0, Offer: 0, Rejected: 0 };
     jobs.forEach(j => { if (counts[j.status] !== undefined) counts[j.status]++; });
@@ -280,7 +280,7 @@ function updateStats() {
     document.getElementById('stat-rejected').textContent  = counts.Rejected;
 }
 
-// ==================== DASHBOARD ====================
+// DASHBOARD
 function updateDashboard() {
     const counts = { Applied: 0, Interviewing: 0, Offer: 0, Rejected: 0 };
     jobs.forEach(j => { if (counts[j.status] !== undefined) counts[j.status]++; });
@@ -343,7 +343,7 @@ function updateDashboard() {
     }
 }
 
-// ==================== NAVIGATION ====================
+// NAVIGATION
 function showView(viewName, clickedEl) {
     // Hide all views
     document.querySelectorAll('.view').forEach(v => {
@@ -366,7 +366,7 @@ function showView(viewName, clickedEl) {
     if (viewName === 'dashboard') updateDashboard();
 }
 
-// ==================== TOAST ====================
+// TOAST
 let toastTimer;
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
@@ -377,7 +377,7 @@ function showToast(message, type = 'success') {
     toastTimer = setTimeout(() => toast.classList.add('hidden'), 3000);
 }
 
-// ==================== UTILS ====================
+// UTILS
 function esc(str = '') {
     return String(str).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 }
